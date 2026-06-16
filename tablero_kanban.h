@@ -3,6 +3,8 @@
 
 #include "estructuras.h"
 
+// Modulo 4: funciones para mostrar el tablero y cambiar el estado de las tareas.
+
 void mostrarTablero(
     struct Tarea pendientes[],
     int cantPendientes,

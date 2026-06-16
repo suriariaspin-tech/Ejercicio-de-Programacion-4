@@ -9,7 +9,7 @@ static void EliminarPorIndice(struct Tarea tareas[], int *cantidad, int indice) 
     (*cantidad)--;
 }
 
-int codigoExiste(
+static int codigoExiste(
     struct Tarea pendientes[],
     int totalPendientes,
     struct Tarea progreso[],

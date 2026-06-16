@@ -3,15 +3,7 @@
 
 #include "estructuras.h"
 
-int codigoExiste(
-    struct Tarea pendientes[],
-    int totalPendientes,
-    struct Tarea progreso[],
-    int totalProgreso,
-    struct Tarea finalizadas[],
-    int totalFinalizadas,
-    int codigo
-);
+// Modulo 2: funciones para registrar y eliminar tareas.
 
 void registrarTarea(
     struct Tarea pendientes[],
