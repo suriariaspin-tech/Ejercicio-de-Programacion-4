@@ -2,13 +2,15 @@
 #include "registro_eliminacion.h"
 #include "validaciones.h"
 
-static void EliminarPorIndice(struct Tarea tareas[], int *cantidad, int indice) {
-    for(int j = indice; j < *cantidad - 1; j++) {
-        tareas[j] = tareas[j + 1];
+// Función para eliminar una tarea por su código
+static void EliminarPorIndice(struct Tarea tareas[], int *cantidad, int indice) { // Se utiliza "static" para limitar el alcance de la función a este archivo
+    for(int j = indice; j < *cantidad - 1; j++) { // Recorre el arreglo desde el índice de la tarea a eliminar hasta el final del arreglo
+        tareas[j] = tareas[j + 1]; // Desplaza cada tarea una posición hacia atrás para sobrescribir la tarea a eliminar
     }
-    (*cantidad)--;
+    (*cantidad)--; // Decrementa el contador de tareas para reflejar la eliminación
 }
 
+// Función para verificar si un código de tarea ya existe en el sistema
 static int codigoExiste(
     struct Tarea pendientes[],
     int totalPendientes,
@@ -17,28 +19,28 @@ static int codigoExiste(
     struct Tarea finalizadas[],
     int totalFinalizadas,
     int codigo
-) {
-    for(int i = 0; i < totalPendientes; i++) {
-        if(pendientes[i].codigo == codigo) {
-            return 1;
+) { // Se utiliza "static" para limitar el alcance de la función a este archivo
+    for(int i = 0; i < totalPendientes; i++) { // Recorre el arreglo de tareas pendientes
+        if(pendientes[i].codigo == codigo) { // Compara el código de cada tarea con el código ingresado
+            return 1; // Si encuentra una coincidencia, devuelve 1 indicando que el código ya existe
         }
     }
 
-    for(int i = 0; i < totalProgreso; i++) {
-        if(progreso[i].codigo == codigo) {
-            return 1;
+    for(int i = 0; i < totalProgreso; i++) { // Recorre el arreglo de tareas en progreso
+        if(progreso[i].codigo == codigo) { // Compara el código de cada tarea con el código ingresado
+            return 1; // Si encuentra una coincidencia, devuelve 1 indicando que el código ya existe
         }
     }
 
-    for(int i = 0; i < totalFinalizadas; i++) {
-        if(finalizadas[i].codigo == codigo) {
-            return 1;
+    for(int i = 0; i < totalFinalizadas; i++) { // Recorre el arreglo de tareas finalizadas
+        if(finalizadas[i].codigo == codigo) { // Compara el código de cada tarea con el código ingresado
+            return 1; // Si encuentra una coincidencia, devuelve 1 indicando que el código ya existe
         }
     }
-
-    return 0;
+    return 0; // Si no encuentra el código en ninguno de los arreglos, devuelve 0 indicando que el código no existe
 }
 
+// Función para registrar una nueva tarea en el sistema
 void registrarTarea(
     struct Tarea pendientes[],
     int *cantPendientes,
@@ -47,13 +49,12 @@ void registrarTarea(
     struct Tarea finalizadas[],
     int *cantFinalizadas
 ) {
-    struct Tarea nuevaTarea;
-    int estado;
-    int registrada = 0;
+    struct Tarea nuevaTarea; // Variable para almacenar los datos de la nueva tarea
+    int estado; // Variable para almacenar el estado inicial de la tarea
+    int registrada = 0; // Variable para indicar si la tarea fue registrada exitosamente
 
     printf("Ingrese el codigo de la tarea: ");
-    ValidarCodigo(&nuevaTarea.codigo);
-    LimpiarBuffer();
+    ValidarEntero(&nuevaTarea.codigo);
 
     if(codigoExiste(
         pendientes,
@@ -63,7 +64,7 @@ void registrarTarea(
         finalizadas,
         *cantFinalizadas,
         nuevaTarea.codigo
-    )) {
+    )) { // Verifica si el código ingresado ya existe en el sistema
         printf("Error: el codigo ya existe.\n");
         return;
     }
@@ -76,7 +77,7 @@ void registrarTarea(
 
     ValidarPrioridad(nuevaTarea.prioridad);
 
-    do {
+    do { // Bucle para solicitar el estado inicial de la tarea hasta que sea válido
         printf("\nSeleccione el estado inicial:\n");
         printf("1. Pendiente\n");
         printf("2. En Progreso\n");
@@ -90,30 +91,30 @@ void registrarTarea(
         }
     } while(estado < 1 || estado > 3);
 
-    if(estado == ESTADO_PENDIENTE) {
-        if(*cantPendientes < MAX_TAREAS) {
+    if(estado == ESTADO_PENDIENTE) { // Si el estado seleccionado es "Pendiente"
+        if(*cantPendientes < MAX_TAREAS) { // Verifica si hay espacio en la columna de pendientes
             AsignarEstado(&nuevaTarea, ESTADO_PENDIENTE);
-            pendientes[*cantPendientes] = nuevaTarea;
-            (*cantPendientes)++;
-            registrada = 1;
+            pendientes[*cantPendientes] = nuevaTarea; // Agrega la nueva tarea al arreglo de pendientes
+            (*cantPendientes)++; // Incrementa el contador de tareas pendientes
+            registrada = 1; // Indica que la tarea fue registrada exitosamente
         } else {
             printf("La columna de pendientes esta llena.\n");
         }
-    } else if(estado == ESTADO_EN_PROGRESO) {
-        if(*cantEnProceso < MAX_TAREAS) {
-            AsignarEstado(&nuevaTarea, ESTADO_EN_PROGRESO);
-            enProceso[*cantEnProceso] = nuevaTarea;
-            (*cantEnProceso)++;
-            registrada = 1;
+    } else if(estado == ESTADO_EN_PROGRESO) { // Si el estado seleccionado es "En Progreso"
+        if(*cantEnProceso < MAX_TAREAS) { // Verifica si hay espacio en la columna de en progreso
+            AsignarEstado(&nuevaTarea, ESTADO_EN_PROGRESO); // Asigna el estado "En Progreso" a la nueva tarea
+            enProceso[*cantEnProceso] = nuevaTarea; // Agrega la nueva tarea al arreglo de en progreso
+            (*cantEnProceso)++; // Incrementa el contador de tareas en progreso
+            registrada = 1; // Indica que la tarea fue registrada exitosamente
         } else {
             printf("La columna de en progreso esta llena.\n");
         }
     } else {
-        if(*cantFinalizadas < MAX_TAREAS) {
-            AsignarEstado(&nuevaTarea, ESTADO_FINALIZADA);
-            finalizadas[*cantFinalizadas] = nuevaTarea;
-            (*cantFinalizadas)++;
-            registrada = 1;
+        if(*cantFinalizadas < MAX_TAREAS) { // Verifica si hay espacio en la columna de finalizadas
+            AsignarEstado(&nuevaTarea, ESTADO_FINALIZADA); // Asigna el estado "Finalizada" a la nueva tarea
+            finalizadas[*cantFinalizadas] = nuevaTarea; // Agrega la nueva tarea al arreglo de finalizadas
+            (*cantFinalizadas)++; // Incrementa el contador de tareas finalizadas
+            registrada = 1; // Indica que la tarea fue registrada exitosamente
         } else {
             printf("La columna de finalizadas esta llena.\n");
         }
@@ -124,6 +125,7 @@ void registrarTarea(
     }
 }
 
+// Función para eliminar una tarea por su código
 void eliminarTarea(
     struct Tarea pendientes[],
     int *cantPendientes,
@@ -132,30 +134,30 @@ void eliminarTarea(
     struct Tarea finalizadas[],
     int *cantFinalizadas
 ) {
-    int codigo;
+    int codigo; // Variable para almacenar el código de la tarea a eliminar
 
     printf("Ingrese el codigo de la tarea a eliminar: ");
     ValidarEntero(&codigo);
 
-    for(int i = 0; i < *cantPendientes; i++) {
-        if(pendientes[i].codigo == codigo) {
-            EliminarPorIndice(pendientes, cantPendientes, i);
+    for(int i = 0; i < *cantPendientes; i++) { // Recorre el arreglo de tareas pendientes
+        if(pendientes[i].codigo == codigo) { // Compara el código de cada tarea con el código ingresado
+            EliminarPorIndice(pendientes, cantPendientes, i); // Elimina la tarea del arreglo de pendientes utilizando la función EliminarPorIndice
             printf("Tarea eliminada correctamente.\n");
             return;
         }
     }
 
-    for(int i = 0; i < *cantProgreso; i++) {
-        if(progreso[i].codigo == codigo) {
-            EliminarPorIndice(progreso, cantProgreso, i);
+    for(int i = 0; i < *cantProgreso; i++) { // Recorre el arreglo de tareas en progreso
+        if(progreso[i].codigo == codigo) { // Compara el código de cada tarea con el código ingresado
+            EliminarPorIndice(progreso, cantProgreso, i); // Elimina la tarea del arreglo de en progreso utilizando la función EliminarPorIndice
             printf("Tarea eliminada correctamente.\n");
             return;
         }
     }
 
-    for(int i = 0; i < *cantFinalizadas; i++) {
-        if(finalizadas[i].codigo == codigo) {
-            EliminarPorIndice(finalizadas, cantFinalizadas, i);
+    for(int i = 0; i < *cantFinalizadas; i++) { // Recorre el arreglo de tareas finalizadas
+        if(finalizadas[i].codigo == codigo) { // Compara el código de cada tarea con el código ingresado
+            EliminarPorIndice(finalizadas, cantFinalizadas, i); // Elimina la tarea del arreglo de finalizadas utilizando la función EliminarPorIndice
             printf("Tarea eliminada correctamente.\n");
             return;
         }

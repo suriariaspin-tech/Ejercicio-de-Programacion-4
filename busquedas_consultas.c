@@ -3,6 +3,7 @@
 #include "busquedas_consultas.h"
 #include "validaciones.h"
 
+// Función para buscar tareas por código o responsable
 void buscarTarea(
     struct Tarea pendientes[],
     int totalPendientes,
@@ -11,13 +12,13 @@ void buscarTarea(
     struct Tarea finalizadas[],
     int totalFinalizadas
 ) {
-    int opcionBusqueda;
+    int opcionBusqueda; // Variable para almacenar la opción de búsqueda seleccionada por el usuario
 
     printf("\nBUSCAR TAREA\n");
     printf("1. Buscar por codigo\n");
     printf("2. Buscar por responsable\n");
 
-    do {
+    do { // Bucle para solicitar la opción de búsqueda hasta que sea válida
         printf("Seleccione una opcion: ");
         ValidarEntero(&opcionBusqueda);
 
@@ -26,14 +27,14 @@ void buscarTarea(
         }
     } while(opcionBusqueda < 1 || opcionBusqueda > 2);
 
-    if(opcionBusqueda == 1) {
-        int codigo;
+    if(opcionBusqueda == 1) { // Si la opción de búsqueda es por código
+        int codigo; // Variable para almacenar el código ingresado por el usuario
 
         printf("Ingrese el codigo a buscar: ");
         ValidarEntero(&codigo);
 
-        for(int i = 0; i < totalPendientes; i++) {
-            if(pendientes[i].codigo == codigo) {
+        for(int i = 0; i < totalPendientes; i++) { // Recorre el arreglo de tareas pendientes
+            if(pendientes[i].codigo == codigo) { // Compara el código de cada tarea con el código ingresado
                 printf("\nCodigo: %d\n", pendientes[i].codigo);
                 printf("Titulo: %s\n", pendientes[i].titulo);
                 printf("Responsable: %s\n", pendientes[i].responsable);
@@ -43,8 +44,8 @@ void buscarTarea(
             }
         }
 
-        for(int i = 0; i < totalProgreso; i++) {
-            if(progreso[i].codigo == codigo) {
+        for(int i = 0; i < totalProgreso; i++) { // Recorre el arreglo de tareas en progreso
+            if(progreso[i].codigo == codigo) { // Compara el código de cada tarea con el código ingresado
                 printf("\nCodigo: %d\n", progreso[i].codigo);
                 printf("Titulo: %s\n", progreso[i].titulo);
                 printf("Responsable: %s\n", progreso[i].responsable);
@@ -54,8 +55,8 @@ void buscarTarea(
             }
         }
 
-        for(int i = 0; i < totalFinalizadas; i++) {
-            if(finalizadas[i].codigo == codigo) {
+        for(int i = 0; i < totalFinalizadas; i++) { // Recorre el arreglo de tareas finalizadas
+            if(finalizadas[i].codigo == codigo) { // Compara el código de cada tarea con el código ingresado
                 printf("\nCodigo: %d\n", finalizadas[i].codigo);
                 printf("Titulo: %s\n", finalizadas[i].titulo);
                 printf("Responsable: %s\n", finalizadas[i].responsable);
@@ -67,15 +68,15 @@ void buscarTarea(
 
         printf("Tarea no encontrada.\n");
     } else {
-        char responsable[MAX_RESPONSABLE];
-        int encontrado = 0;
+        char responsable[MAX_RESPONSABLE]; // Variable para almacenar el nombre del responsable ingresado por el usuario
+        int encontrado = 0; // Variable para indicar si se encontraron tareas asociadas al responsable ingresado
 
         LimpiarBuffer();
         printf("Ingrese el nombre del responsable: ");
         ValidarTexto(responsable, MAX_RESPONSABLE);
 
-        for(int i = 0; i < totalPendientes; i++) {
-            if(strcmp(pendientes[i].responsable, responsable) == 0) {
+        for(int i = 0; i < totalPendientes; i++) { // Recorre el arreglo de tareas pendientes
+            if(strcmp(pendientes[i].responsable, responsable) == 0) { // Compara el nombre del responsable de cada tarea con el nombre ingresado
                 printf("\n[%d] %s - %s\n",
                     pendientes[i].codigo,
                     pendientes[i].titulo,
@@ -84,8 +85,8 @@ void buscarTarea(
             }
         }
 
-        for(int i = 0; i < totalProgreso; i++) {
-            if(strcmp(progreso[i].responsable, responsable) == 0) {
+        for(int i = 0; i < totalProgreso; i++) { // Recorre el arreglo de tareas en progreso
+            if(strcmp(progreso[i].responsable, responsable) == 0) { // Compara el nombre del responsable de cada tarea con el nombre ingresado
                 printf("\n[%d] %s - %s\n",
                     progreso[i].codigo,
                     progreso[i].titulo,
@@ -94,8 +95,8 @@ void buscarTarea(
             }
         }
 
-        for(int i = 0; i < totalFinalizadas; i++) {
-            if(strcmp(finalizadas[i].responsable, responsable) == 0) {
+        for(int i = 0; i < totalFinalizadas; i++) { // Recorre el arreglo de tareas finalizadas
+            if(strcmp(finalizadas[i].responsable, responsable) == 0) { // Compara el nombre del responsable de cada tarea con el nombre ingresado
                 printf("\n[%d] %s - %s\n",
                     finalizadas[i].codigo,
                     finalizadas[i].titulo,

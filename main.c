@@ -123,6 +123,7 @@ int main() {
                 break;
 
             case 6:
+                // Mostrar estadísticas del proyecto
                 mostrarEstadisticas(
                 totalPendientes,
                 totalEnProceso,

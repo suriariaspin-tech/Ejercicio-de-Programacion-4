@@ -4,87 +4,58 @@
 #include <string.h>
 #include "validaciones.h"
 
-static void SalirPorFinEntrada() {
-    printf("\nEntrada finalizada.\n");
-    exit(0);
-}
-
+// Función para limpiar el buffer de entrada, eliminando cualquier carácter restante hasta el salto de línea o el fin de archivo
 void LimpiarBuffer() {
     int c;
     while((c = getchar()) != '\n' && c != EOF) { }
 }
 
+// Función para validar que el texto ingresado no contenga caracteres no permitidos (solo letras, números y espacios)
 int TextoValido(char texto[]) {
-    for(int i = 0; texto[i] != '\0'; i++) {
-        if(!isalnum((unsigned char)texto[i]) &&
-           !isspace((unsigned char)texto[i]) &&
-           texto[i] != '-' &&
-           texto[i] != '.') {
-            return 0;
+    for(int i = 0; texto[i] != '\0'; i++) { // BUCLE para verificar cada caracter del texto y validar que solo contenga letras, números y espacios
+        if(!isalpha(texto[i]) && !isdigit(texto[i]) && !isspace(texto[i])) { // Si se encuentra un caracter que no es letra ni número ni espacio, se considera inválido
+            return 0; // Si el texto es inválido, se devuelve 0
         }
     }
-    return 1;
+    return 1; // Si el texto es válido, se devuelve 1
 }
 
-void ValidarTexto(char texto[], int tamano) {
+// Función para validar la entrada de texto, asegurándose de que no esté vacía y solo contenga caracteres válidos
+void ValidarTexto(char texto[], int tamaño) {
     do {
-        if(fgets(texto, tamano, stdin) == NULL) {
-            SalirPorFinEntrada();
-        }
-
-        texto[strcspn(texto, "\n")] = 0;
-
-        if(strlen(texto) == 0) {
+        fgets(texto, tamaño, stdin);
+        texto[strcspn(texto, "\n")] = 0; // Elimina el salto de línea al final del texto ingresado
+        if(strlen(texto) == 0) { // Si el texto está vacío, se muestra un mensaje de error y se solicita ingresar nuevamente
             printf("La entrada no puede estar vacia. Ingrese nuevamente: ");
         } else if(!TextoValido(texto)) {
-            printf("Caracteres invalidos. Ingrese nuevamente: ");
+            printf("Solo se permiten letras, numeros y espacios. Ingrese nuevamente: ");
         }
-    } while(strlen(texto) == 0 || !TextoValido(texto));
+    } while(strlen(texto) == 0 || !TextoValido(texto)); // Buccle para validar que el texto no esté vacío y que no contenga caracteres no permitidos
 }
 
-void ValidarCodigo(int *codigo) {
-    int resultado;
-
-    while((resultado = scanf("%d", codigo)) != 1 || *codigo <= 0) {
-        if(resultado == EOF) {
-            SalirPorFinEntrada();
-        }
-
-        printf("Codigo invalido. Ingrese nuevamente: ");
-        LimpiarBuffer();
-    }
-}
-
+// Función para validar que la entrada sea un número entero positivo
 void ValidarEntero(int *numero) {
-    int resultado;
-
-    while((resultado = scanf("%d", numero)) != 1 || *numero <= 0) {
-        if(resultado == EOF) {
-            SalirPorFinEntrada();
-        }
-
-        printf("Entrada invalida. Ingrese un numero entero positivo: ");
-        LimpiarBuffer();
+    while(scanf("%d", numero) != 1 || *numero <= 0) { // Bucle para validar que la entrada sea un número entero y positivo
+        printf("Valor invalido. Ingrese un numero positivo: ");
+        LimpiarBuffer(); // Llamada a la función para limpiar el buffer después de una entrada inválida
     }
+    LimpiarBuffer(); // Llamada a la función para limpiar el buffer después de una entrada válida
 }
 
+// Función para validar la prioridad de una tarea, asegurándose de que sea "Alta", "Media" o "Baja"
 void ValidarPrioridad(char prioridad[]) {
-    int valido;
+    int valido; // Variable para indicar si la prioridad ingresada es válida o no
+    do { // Bucle para solicitar la prioridad hasta que sea válida
+        valido = 1; // Se asume que la prioridad es válida al inicio del bucle
+        printf("Ingrese la prioridad (Alta / Media / Baja): "); 
 
-    do {
-        valido = 1;
-        printf("Ingrese la prioridad (Alta / Media / Baja): ");
-
-        if(fgets(prioridad, 20, stdin) == NULL) {
-            SalirPorFinEntrada();
-        }
-
-        prioridad[strcspn(prioridad, "\n")] = 0;
+        fgets(prioridad, 20, stdin); 
+        prioridad[strcspn(prioridad, "\n")] = 0; 
 
         if(strcmp(prioridad, "Alta") != 0 &&
            strcmp(prioridad, "Media") != 0 &&
-           strcmp(prioridad, "Baja") != 0) {
-            valido = 0;
+           strcmp(prioridad, "Baja") != 0) { // Si la prioridad ingresada no es "Alta", "Media" ni "Baja", se considera inválida
+            valido = 0; // Si la prioridad es inválida, se establece la variable "valido" en 0 para indicar que se debe solicitar nuevamente
             printf("Prioridad invalida.\n");
         }
     } while(!valido);
