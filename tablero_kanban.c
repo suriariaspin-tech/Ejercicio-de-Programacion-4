@@ -83,7 +83,6 @@ void cambiarEstado(
     for(int i = 0; i < *cantPendientes; i++) { // Recorre el arreglo de tareas pendientes para buscar la tarea con el código ingresado
         if(pendientes[i].codigo == codigo) { // Compara el código de cada tarea con el código ingresado
             auxiliar = pendientes[i]; // Si encuentra la tarea, almacena sus datos en la variable auxiliar para luego moverla a la nueva columna
-            LimpiarBuffer();
 
             printf("Ingrese el nuevo responsable: ");
             ValidarTexto(auxiliar.responsable, MAX_RESPONSABLE);
