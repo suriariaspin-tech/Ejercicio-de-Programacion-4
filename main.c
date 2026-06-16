@@ -40,6 +40,7 @@ int main() {
     int opcion;
 
     do {
+        printf("\nSISTEMA KANBAN: \n");
         printf("1. Registrar tarea\n");
         printf("2. Mostrar tablero\n");
         printf("3. Mover tarea\n");
