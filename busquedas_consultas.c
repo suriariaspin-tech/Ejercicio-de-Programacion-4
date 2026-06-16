@@ -81,7 +81,7 @@ void buscarTarea(
                     pendientes[i].codigo,
                     pendientes[i].titulo,
                     pendientes[i].estado);
-                encontrado = 1;
+                encontrado = 1; // Si se encuentra al menos una tarea asociada al responsable ingresado, se establece la variable "encontrado" en 1 para indicar que se encontraron tareas
             }
         }
 
@@ -91,7 +91,7 @@ void buscarTarea(
                     progreso[i].codigo,
                     progreso[i].titulo,
                     progreso[i].estado);
-                encontrado = 1;
+                encontrado = 1; // Si se encuentra al menos una tarea asociada al responsable ingresado, se establece la variable "encontrado" en 1 para indicar que se encontraron tareas
             }
         }
 
@@ -101,7 +101,7 @@ void buscarTarea(
                     finalizadas[i].codigo,
                     finalizadas[i].titulo,
                     finalizadas[i].estado);
-                encontrado = 1;
+                encontrado = 1; // Si se encuentra al menos una tarea asociada al responsable ingresado, se establece la variable "encontrado" en 1 para indicar que se encontraron tareas
             }
         }
 
