@@ -1,14 +1,14 @@
 #ifndef ESTRUCTURAS_H
 #define ESTRUCTURAS_H
 
-#define MAX_TAREAS 20
-#define MAX_TITULO 100
-#define MAX_RESPONSABLE 50
-#define MAX_ESTADO 20
+#define MAX_TAREAS 20 // Define el número máximo de tareas que se pueden manejar en cada columna del tablero
+#define MAX_TITULO 100 // Define el tamaño máximo para el título de una tarea
+#define MAX_RESPONSABLE 50 // Define el tamaño máximo para el nombre del responsable de una tarea
+#define MAX_ESTADO 20 // Define el tamaño máximo para el estado de una tarea
 
-#define ESTADO_PENDIENTE 1
-#define ESTADO_EN_PROGRESO 2
-#define ESTADO_FINALIZADA 3
+#define ESTADO_PENDIENTE 1 // Define el valor entero para representar el estado "Pendiente" de una tarea
+#define ESTADO_EN_PROGRESO 2 // Define el valor entero para representar el estado "En Progreso" de una tarea
+#define ESTADO_FINALIZADA 3  // Define el valor entero para representar el estado "Finalizada" de una tarea
 
 // Modulo 1: definicion de la estructura principal del sistema.
 struct Tarea {
