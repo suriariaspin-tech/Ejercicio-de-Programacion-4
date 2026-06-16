@@ -11,7 +11,7 @@ void mostrarEstadisticas(
     float porcentaje = 0; // Variable para almacenar el porcentaje de tareas finalizadas
 
     if(total > 0) { // Verifica si el total de tareas es mayor a 0 para evitar división por cero
-        porcentaje = (cantFinalizadas * 100.0f) / total; // Calcula el porcentaje de tareas finalizadas dividiendo el número de tareas finalizadas por el total de tareas y multiplicando por 100 para obtener el porcentaje
+        porcentaje = (cantFinalizadas * 100.0f) / total; // Calcula el porcentaje de tareas finalizadas
     }
 
     printf("\n ESTADISTICAS \n");
