@@ -60,11 +60,11 @@ void mostrarTablero(
 }
 
 void cambiarEstado(
-    struct Tarea pendientes[],
+    struct Tarea *pendientes,
     int *cantPendientes,
-    struct Tarea enProceso[],
+    struct Tarea *enProceso,
     int *cantEnProceso,
-    struct Tarea finalizadas[],
+    struct Tarea *finalizadas,
     int *cantFinalizadas
 ) {
     int codigo;
