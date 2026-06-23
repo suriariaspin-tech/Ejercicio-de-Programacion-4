@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include "estructuras.h"
 #include "guardar_tareas.h"
+#include <errno.h>
+#include <string.h>
 
 // Guardar tareas pendientes en un archivo de texto
 void guardarPendientes(
@@ -12,7 +14,7 @@ void guardarPendientes(
     archivo = fopen("pendientes.txt", "w");
 
     if(archivo == NULL) {
-        printf("Error al abrir pendientes.txt\n");
+        fprintf(stderr, "Error al abrir pendientes.txt: %s\n", strerror(errno));
         return;
     }
 
@@ -37,10 +39,10 @@ void guardarEnProceso(
 ) {
     FILE *archivo;
 
-    archivo = fopen("enproceso.txt", "w");
+    archivo = fopen("enprogreso.txt", "w");
 
     if(archivo == NULL) {
-        printf("Error al abrir enproceso.txt\n");
+        fprintf(stderr, "Error al abrir enprogreso.txt: %s\n", strerror(errno));
         return;
     }
 
@@ -68,7 +70,7 @@ void guardarFinalizadas(
     archivo = fopen("finalizadas.txt", "w");
 
     if(archivo == NULL) {
-        printf("Error al abrir finalizadas.txt\n");
+        fprintf(stderr, "Error al abrir finalizadas.txt: %s\n", strerror(errno));
         return;
     }
 

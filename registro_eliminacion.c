@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "registro_eliminacion.h"
 #include "validaciones.h"
+#include "guardar_tareas.h"
 
 // Función para eliminar una tarea por su código
 static void EliminarPorIndice(struct Tarea tareas[], int *cantidad, int indice) { // Se utiliza "static" para limitar el alcance de la función a este archivo
@@ -154,7 +155,7 @@ void eliminarTarea(
     for(int i = 0; i < *cantProgreso; i++) { // Recorre el arreglo de tareas en progreso
         if(progreso[i].codigo == codigo) { // Compara el código de cada tarea con el código ingresado
             EliminarPorIndice(progreso, cantProgreso, i); // Elimina la tarea del arreglo de en progreso utilizando la función EliminarPorIndice
-            guardarProgreso(progreso, *cantProgreso); // Guarda las tareas en progreso en el archivo de texto
+            guardarEnProceso(progreso, *cantProgreso); // Guarda las tareas en progreso en el archivo de texto
             printf("Tarea eliminada correctamente.\n");
             return;
         }
