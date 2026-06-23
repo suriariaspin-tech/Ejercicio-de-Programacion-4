@@ -123,6 +123,10 @@ void cambiarEstado(
                 (*cantFinalizadas)++; // Incrementa el contador de tareas finalizadas para reflejar el movimiento de la tarea
             }
 
+            guardarPendientes(pendientes, *cantPendientes); // Guarda las tareas pendientes en el archivo de texto
+            guardarEnProceso(enProceso, *cantEnProceso); // Guarda las tareas en proceso en el archivo de texto
+            guardarFinalizadas(finalizadas, *cantFinalizadas); // Guarda las tareas finalizadas en el archivo de texto
+
             printf("Tarea movida correctamente.\n");
             return;
         }

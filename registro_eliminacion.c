@@ -96,6 +96,7 @@ void registrarTarea(
             AsignarEstado(&nuevaTarea, ESTADO_PENDIENTE);
             pendientes[*cantPendientes] = nuevaTarea; // Agrega la nueva tarea al arreglo de pendientes
             (*cantPendientes)++; // Incrementa el contador de tareas pendientes
+            guardarPendientes(pendientes,*cantPendientes); // Guarda las tareas pendientes en el archivo de texto
             registrada = 1; // Indica que la tarea fue registrada exitosamente
         } else {
             printf("La columna de pendientes esta llena.\n");
@@ -105,6 +106,7 @@ void registrarTarea(
             AsignarEstado(&nuevaTarea, ESTADO_EN_PROGRESO); // Asigna el estado "En Progreso" a la nueva tarea
             enProceso[*cantEnProceso] = nuevaTarea; // Agrega la nueva tarea al arreglo de en progreso
             (*cantEnProceso)++; // Incrementa el contador de tareas en progreso
+            guardarEnProceso(enProceso,*cantEnProceso); // Guarda las tareas en progreso en el archivo de texto
             registrada = 1; // Indica que la tarea fue registrada exitosamente
         } else {
             printf("La columna de en progreso esta llena.\n");
@@ -114,6 +116,7 @@ void registrarTarea(
             AsignarEstado(&nuevaTarea, ESTADO_FINALIZADA); // Asigna el estado "Finalizada" a la nueva tarea
             finalizadas[*cantFinalizadas] = nuevaTarea; // Agrega la nueva tarea al arreglo de finalizadas
             (*cantFinalizadas)++; // Incrementa el contador de tareas finalizadas
+            guardarFinalizadas(finalizadas,*cantFinalizadas); // Guarda las tareas finalizadas en el archivo de texto
             registrada = 1; // Indica que la tarea fue registrada exitosamente
         } else {
             printf("La columna de finalizadas esta llena.\n");
@@ -142,6 +145,7 @@ void eliminarTarea(
     for(int i = 0; i < *cantPendientes; i++) { // Recorre el arreglo de tareas pendientes
         if(pendientes[i].codigo == codigo) { // Compara el código de cada tarea con el código ingresado
             EliminarPorIndice(pendientes, cantPendientes, i); // Elimina la tarea del arreglo de pendientes utilizando la función EliminarPorIndice
+            guardarPendientes(pendientes,*cantPendientes); // Guarda las tareas pendientes en el archivo de texto
             printf("Tarea eliminada correctamente.\n");
             return;
         }
@@ -150,6 +154,7 @@ void eliminarTarea(
     for(int i = 0; i < *cantProgreso; i++) { // Recorre el arreglo de tareas en progreso
         if(progreso[i].codigo == codigo) { // Compara el código de cada tarea con el código ingresado
             EliminarPorIndice(progreso, cantProgreso, i); // Elimina la tarea del arreglo de en progreso utilizando la función EliminarPorIndice
+            guardarProgreso(progreso, *cantProgreso); // Guarda las tareas en progreso en el archivo de texto
             printf("Tarea eliminada correctamente.\n");
             return;
         }
@@ -158,6 +163,7 @@ void eliminarTarea(
     for(int i = 0; i < *cantFinalizadas; i++) { // Recorre el arreglo de tareas finalizadas
         if(finalizadas[i].codigo == codigo) { // Compara el código de cada tarea con el código ingresado
             EliminarPorIndice(finalizadas, cantFinalizadas, i); // Elimina la tarea del arreglo de finalizadas utilizando la función EliminarPorIndice
+            guardarFinalizadas(finalizadas, *cantFinalizadas); // Guarda las tareas finalizadas en el archivo de texto
             printf("Tarea eliminada correctamente.\n");
             return;
         }
