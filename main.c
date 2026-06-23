@@ -15,8 +15,11 @@ Cada tarea posee un código único, un título, un responsable, una prioridad y 
 #include "registro_eliminacion.h"
 #include "tablero_kanban.h"
 #include "validaciones.h"
+#include "cargar_codigos.h"
 
 int main() {
+
+    cargarCodigos();
 
     // Arreglo para almacenar las tareas pendientes
     struct Tarea pendientes[MAX_TAREAS];
