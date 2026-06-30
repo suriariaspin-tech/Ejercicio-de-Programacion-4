@@ -14,11 +14,8 @@ Cada tarea posee un código único, un título, un responsable, una prioridad y 
 #include "archivo.h"
 #include "kanban.h"
 #include "validaciones.h"
-#include "cargar_codigos.h"
 
 int main() {
-    cargarCodigos();
-
     Lista pendientes;
     Lista enProceso;
     Lista finalizadas;
