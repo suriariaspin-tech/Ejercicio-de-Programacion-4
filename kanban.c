@@ -4,77 +4,82 @@
 #include "archivo.h"
 #include "validaciones.h"
 
+// Función para verificar si el código de la tarea ya existe en alguna de las listas
 static int codigoExiste(Lista *pendientes, Lista *enProceso, Lista *finalizadas, int codigo) {
-    if(buscarTareaPorCodigo(pendientes, codigo) != NULL) {
+    if(buscarTareaPorCodigo(pendientes, codigo) != NULL) { // Si se encuentra la tarea en la lista de pendientes, retorna 1 (existe)
         return 1;
     }
-    if(buscarTareaPorCodigo(enProceso, codigo) != NULL) {
+    if(buscarTareaPorCodigo(enProceso, codigo) != NULL) { // Si se encuentra la tarea en la lista de en proceso, retorna 1 (existe)
         return 1;
     }
-    if(buscarTareaPorCodigo(finalizadas, codigo) != NULL) {
+    if(buscarTareaPorCodigo(finalizadas, codigo) != NULL) { // Si se encuentra la tarea en la lista de finalizadas, retorna 1 (existe)
         return 1;
     }
-    return 0;
+    return 0; // Si no se encuentra en ninguna lista, retorna 0 (no existe)
 }
 
+// Función para buscar una tarea por código en todas las listas y retornar el nodo correspondiente
 static Nodo *buscarTareaEnListas(Lista *pendientes, Lista *enProceso, Lista *finalizadas, int codigo) {
-    Nodo *resultado = buscarTareaPorCodigo(pendientes, codigo);
-    if(resultado != NULL) {
+    Nodo *resultado = buscarTareaPorCodigo(pendientes, codigo); // Buscar en la lista de pendientes
+    if(resultado != NULL) { // Si se encuentra la tarea en la lista de pendientes, retorna el nodo correspondiente
         return resultado;
     }
-    resultado = buscarTareaPorCodigo(enProceso, codigo);
-    if(resultado != NULL) {
+    resultado = buscarTareaPorCodigo(enProceso, codigo); // Buscar en la lista de en proceso
+    if(resultado != NULL) { // Si se encuentra la tarea en la lista de en proceso, retorna el nodo correspondiente
         return resultado;
     }
-    return buscarTareaPorCodigo(finalizadas, codigo);
+    return buscarTareaPorCodigo(finalizadas, codigo); // Buscar en la lista de finalizadas y retornar el nodo correspondiente (si no se encuentra, retorna NULL)
 }
 
+// Función para registrar una nueva tarea en la lista de pendientes
 void registrarTarea(Lista *pendientes, Lista *enProceso, Lista *finalizadas) {
-    Tarea nuevaTarea;
+    Tarea nuevaTarea; // Estructura para almacenar los datos de la nueva tarea
 
     printf("Ingrese el codigo de la tarea: ");
-    ValidarEntero(&nuevaTarea.codigo);
+    ValidarEntero(&nuevaTarea.codigo); // Validar que el código ingresado sea un número entero
 
-    if(codigoExiste(pendientes, enProceso, finalizadas, nuevaTarea.codigo)) {
+    if(codigoExiste(pendientes, enProceso, finalizadas, nuevaTarea.codigo)) { // Verificar si el código ya existe en alguna de las listas
         printf("Error: el codigo ya existe.\n");
         return;
     }
 
     printf("Ingrese el titulo de la tarea: ");
-    ValidarTexto(nuevaTarea.titulo, MAX_TITULO);
+    ValidarTexto(nuevaTarea.titulo, MAX_TITULO); // Validar que el título ingresado sea un texto válido (solo letras, números y espacios)
     printf("Ingrese el nombre del responsable: ");
-    ValidarTexto(nuevaTarea.responsable, MAX_RESPONSABLE);
-    ValidarPrioridad(&nuevaTarea.prioridad);
+    ValidarTexto(nuevaTarea.responsable, MAX_RESPONSABLE); // Validar que el nombre del responsable ingresado sea un texto válido (solo letras, números y espacios)
+    ValidarPrioridad(&nuevaTarea.prioridad); // Validar que la prioridad ingresada sea 1, 2 o 3 (Alta, Media o Baja)
 
-    AsignarEstado(&nuevaTarea, ESTADO_PENDIENTE);
-    insertarTareaFinal(pendientes, nuevaTarea);
-    guardarTareas(pendientes, enProceso, finalizadas);
+    AsignarEstado(&nuevaTarea, ESTADO_PENDIENTE); // Asignar el estado "Pendiente" a la nueva tarea
+    insertarTareaFinal(pendientes, nuevaTarea); // Insertar la nueva tarea al final de la lista de pendientes
+    guardarTareas(pendientes, enProceso, finalizadas); // Guardar las listas de tareas en el archivo para mantener los cambios realizados
     printf("\nTarea registrada correctamente.\n");
 }
 
+// Función para modificar los datos de una tarea existente
 void modificarTarea(Lista *pendientes, Lista *enProceso, Lista *finalizadas) {
     int codigo;
-    Nodo *tareaNodo;
+    Nodo *tareaNodo; // Puntero al nodo que contiene la tarea a modificar
 
     printf("Ingrese el codigo de la tarea a modificar: ");
-    ValidarEntero(&codigo);
+    ValidarEntero(&codigo); // Validar que el código ingresado sea un número entero
 
-    tareaNodo = buscarTareaEnListas(pendientes, enProceso, finalizadas, codigo);
-    if(tareaNodo == NULL) {
+    tareaNodo = buscarTareaEnListas(pendientes, enProceso, finalizadas, codigo); // Buscar la tarea en todas las listas y obtener el nodo correspondiente
+    if(tareaNodo == NULL) { // Si no se encuentra la tarea, mostrar un mensaje de error y retornar
         printf("Tarea no encontrada.\n");
         return;
     }
 
     printf("Ingrese el nuevo titulo: ");
-    ValidarTexto(tareaNodo->dato.titulo, MAX_TITULO);
+    ValidarTexto(tareaNodo->dato.titulo, MAX_TITULO); // Validar que el nuevo título ingresado sea un texto válido (solo letras, números y espacios)
     printf("Ingrese el nuevo responsable: ");
-    ValidarTexto(tareaNodo->dato.responsable, MAX_RESPONSABLE);
-    ValidarPrioridad(&tareaNodo->dato.prioridad);
+    ValidarTexto(tareaNodo->dato.responsable, MAX_RESPONSABLE); // Validar que el nuevo responsable ingresado sea un texto válido (solo letras, números y espacios)
+    ValidarPrioridad(&tareaNodo->dato.prioridad); // Validar que la nueva prioridad ingresada sea 1, 2 o 3 (Alta, Media o Baja)
 
-    guardarTareas(pendientes, enProceso, finalizadas);
+    guardarTareas(pendientes, enProceso, finalizadas); // Guardar las listas de tareas en el archivo para mantener los cambios realizados
     printf("Tarea modificada correctamente.\n");
 }
 
+// Función para buscar tareas por código o responsable
 void buscarTarea(Lista *pendientes, Lista *enProceso, Lista *finalizadas) {
     int opcionBusqueda;
 
@@ -88,17 +93,17 @@ void buscarTarea(Lista *pendientes, Lista *enProceso, Lista *finalizadas) {
         if(opcionBusqueda < 1 || opcionBusqueda > 2) {
             printf("Opcion invalida.\n");
         }
-    } while(opcionBusqueda < 1 || opcionBusqueda > 2);
+    } while(opcionBusqueda < 1 || opcionBusqueda > 2); // Bucle para validar que la opción ingresada esté dentro del rango permitido (1-2)
 
-    if(opcionBusqueda == 1) {
+    if(opcionBusqueda == 1) { // Si la opción seleccionada es 1, se busca la tarea por código
         int codigo;
-        Nodo *resultado;
+        Nodo *resultado; // Puntero al nodo que contiene la tarea encontrada
 
         printf("Ingrese el codigo a buscar: ");
         ValidarEntero(&codigo);
 
-        resultado = buscarTareaEnListas(pendientes, enProceso, finalizadas, codigo);
-        if(resultado != NULL) {
+        resultado = buscarTareaEnListas(pendientes, enProceso, finalizadas, codigo); // Buscar la tarea en todas las listas y obtener el nodo correspondiente
+        if(resultado != NULL) { // Si se encuentra la tarea, mostrar sus datos
             printf("\nCodigo: %d\n", resultado->dato.codigo);
             printf("Titulo: %s\n", resultado->dato.titulo);
             printf("Responsable: %s\n", resultado->dato.responsable);
@@ -107,35 +112,35 @@ void buscarTarea(Lista *pendientes, Lista *enProceso, Lista *finalizadas) {
         } else {
             printf("Tarea no encontrada.\n");
         }
-    } else {
+    } else { // Si la opción seleccionada es 2, se busca la tarea por responsable
         char responsable[MAX_RESPONSABLE];
         int encontrado = 0;
-        Nodo *actual;
+        Nodo *actual; // Puntero al nodo actual que se está recorriendo en la lista
 
-        LimpiarBuffer();
+        LimpiarBuffer(); // Limpiar el buffer de entrada para evitar problemas al leer cadenas de texto
         printf("Ingrese el nombre del responsable: ");
-        ValidarTexto(responsable, MAX_RESPONSABLE);
+        ValidarTexto(responsable, MAX_RESPONSABLE); // Validar que el nombre del responsable ingresado sea un texto válido (solo letras, números y espacios)
 
-        actual = pendientes->primero;
-        while(actual != NULL) {
-            if(strcmp(actual->dato.responsable, responsable) == 0) {
+        actual = pendientes->primero; // Iniciar el recorrido desde el primer nodo de la lista de pendientes
+        while(actual != NULL) { // Recorrer la lista de pendientes hasta llegar al final (NULL)
+            if(strcmp(actual->dato.responsable, responsable) == 0) { // Si el responsable de la tarea coincide con el ingresado, mostrar los datos de la tarea
                 printf("\n[%d] %s - %s\n", actual->dato.codigo, actual->dato.titulo, actual->dato.estado);
                 encontrado = 1;
             }
-            actual = actual->siguiente;
+            actual = actual->siguiente; // Avanzar al siguiente nodo de la lista
         }
 
-        actual = enProceso->primero;
-        while(actual != NULL) {
-            if(strcmp(actual->dato.responsable, responsable) == 0) {
+        actual = enProceso->primero; // Iniciar el recorrido desde el primer nodo de la lista de en proceso
+        while(actual != NULL) { // Recorrer la lista de en proceso hasta llegar al final (NULL)
+            if(strcmp(actual->dato.responsable, responsable) == 0) { // Si el responsable de la tarea coincide con el ingresado, mostrar los datos de la tarea
                 printf("\n[%d] %s - %s\n", actual->dato.codigo, actual->dato.titulo, actual->dato.estado);
                 encontrado = 1;
             }
-            actual = actual->siguiente;
+            actual = actual->siguiente; // Avanzar al siguiente nodo de la lista
         }
 
-        actual = finalizadas->primero;
-        while(actual != NULL) {
+        actual = finalizadas->primero; // Iniciar el recorrido desde el primer nodo de la lista de finalizadas
+        while(actual != NULL) { //
             if(strcmp(actual->dato.responsable, responsable) == 0) {
                 printf("\n[%d] %s - %s\n", actual->dato.codigo, actual->dato.titulo, actual->dato.estado);
                 encontrado = 1;
