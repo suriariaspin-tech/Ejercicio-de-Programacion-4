@@ -1,9 +1,9 @@
 ESTADOS
-1,Pendiente
-2,En Progreso
-3,Finalizada
+1. Pendiente
+2. En Progreso
+3. Finalizada
 
 PRIORIDADES
-1,Alta
-2,Media
-3,Baja
+1. Alta
+2. Media
+3. Baja

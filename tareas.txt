@@ -1,0 +1,3 @@
+456|Barrer|Nico|2|Pendiente
+789|Cocinar|Joel|3|Pendiente
+123|Limpiar|Suri|1|Finalizada
