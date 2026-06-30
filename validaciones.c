@@ -42,21 +42,14 @@ void ValidarEntero(int *numero) {
     LimpiarBuffer(); // Llamada a la función para limpiar el buffer después de una entrada válida
 }
 
-// Función para validar la prioridad de una tarea, asegurándose de que sea "Alta", "Media" o "Baja"
-void ValidarPrioridad(char prioridad[]) {
-    int valido; // Variable para indicar si la prioridad ingresada es válida o no
-    do { // Bucle para solicitar la prioridad hasta que sea válida
-        valido = 1; // Se asume que la prioridad es válida al inicio del bucle
-        printf("Ingrese la prioridad (Alta / Media / Baja): "); 
+// Función para validar la prioridad de una tarea, asegurándose de que sea 1, 2 o 3
+void ValidarPrioridad(int *prioridad) {
+    do {
+        printf("Ingrese la prioridad (1-Alta / 2-Media / 3-Baja): ");
+        ValidarEntero(prioridad);
 
-        fgets(prioridad, 20, stdin); 
-        prioridad[strcspn(prioridad, "\n")] = 0; 
-
-        if(strcmp(prioridad, "Alta") != 0 &&
-           strcmp(prioridad, "Media") != 0 &&
-           strcmp(prioridad, "Baja") != 0) { // Si la prioridad ingresada no es "Alta", "Media" ni "Baja", se considera inválida
-            valido = 0; // Si la prioridad es inválida, se establece la variable "valido" en 0 para indicar que se debe solicitar nuevamente
+        if(*prioridad < 1 || *prioridad > 3) {
             printf("Prioridad invalida.\n");
         }
-    } while(!valido);
+    } while(*prioridad < 1 || *prioridad > 3);
 }

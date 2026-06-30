@@ -13,7 +13,7 @@ typedef struct {
     int codigo;
     char titulo[MAX_TITULO];
     char responsable[MAX_RESPONSABLE];
-    char prioridad[20];
+    int prioridad;
     char estado[MAX_ESTADO];
 } Tarea;
 

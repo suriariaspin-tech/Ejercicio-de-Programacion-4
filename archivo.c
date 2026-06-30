@@ -13,7 +13,7 @@ void guardarTareas(Lista *pendientes, Lista *enProceso, Lista *finalizadas) {
 
     Nodo *actual = pendientes->primero;
     while(actual != NULL) {
-        fprintf(archivo, "%d|%s|%s|%s|%s\n",
+        fprintf(archivo, "%d|%s|%s|%d|%s\n",
                 actual->dato.codigo,
                 actual->dato.titulo,
                 actual->dato.responsable,
@@ -24,7 +24,7 @@ void guardarTareas(Lista *pendientes, Lista *enProceso, Lista *finalizadas) {
 
     actual = enProceso->primero;
     while(actual != NULL) {
-        fprintf(archivo, "%d|%s|%s|%s|%s\n",
+        fprintf(archivo, "%d|%s|%s|%d|%s\n",
                 actual->dato.codigo,
                 actual->dato.titulo,
                 actual->dato.responsable,
@@ -35,7 +35,7 @@ void guardarTareas(Lista *pendientes, Lista *enProceso, Lista *finalizadas) {
 
     actual = finalizadas->primero;
     while(actual != NULL) {
-        fprintf(archivo, "%d|%s|%s|%s|%s\n",
+        fprintf(archivo, "%d|%s|%s|%d|%s\n",
                 actual->dato.codigo,
                 actual->dato.titulo,
                 actual->dato.responsable,
@@ -84,8 +84,7 @@ int cargarTareas(Lista *pendientes, Lista *enProceso, Lista *finalizadas) {
         if(token == NULL) {
             continue;
         }
-        strncpy(tarea.prioridad, token, sizeof(tarea.prioridad));
-        tarea.prioridad[sizeof(tarea.prioridad) - 1] = '\0';
+        tarea.prioridad = atoi(token);
 
         token = strtok(NULL, "|\r\n");
         if(token == NULL) {

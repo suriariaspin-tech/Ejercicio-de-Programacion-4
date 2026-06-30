@@ -7,6 +7,6 @@ void LimpiarBuffer();
 int TextoValido(char texto[]);
 void ValidarTexto(char texto[], int tamano);
 void ValidarEntero(int *numero);
-void ValidarPrioridad(char prioridad[]);
+void ValidarPrioridad(int *prioridad);
 
 #endif

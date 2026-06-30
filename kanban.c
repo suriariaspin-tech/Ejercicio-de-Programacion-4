@@ -44,7 +44,7 @@ void registrarTarea(Lista *pendientes, Lista *enProceso, Lista *finalizadas) {
     ValidarTexto(nuevaTarea.titulo, MAX_TITULO);
     printf("Ingrese el nombre del responsable: ");
     ValidarTexto(nuevaTarea.responsable, MAX_RESPONSABLE);
-    ValidarPrioridad(nuevaTarea.prioridad);
+    ValidarPrioridad(&nuevaTarea.prioridad);
 
     AsignarEstado(&nuevaTarea, ESTADO_PENDIENTE);
     insertarTareaFinal(pendientes, nuevaTarea);
@@ -69,7 +69,7 @@ void modificarTarea(Lista *pendientes, Lista *enProceso, Lista *finalizadas) {
     ValidarTexto(tareaNodo->dato.titulo, MAX_TITULO);
     printf("Ingrese el nuevo responsable: ");
     ValidarTexto(tareaNodo->dato.responsable, MAX_RESPONSABLE);
-    ValidarPrioridad(tareaNodo->dato.prioridad);
+    ValidarPrioridad(&tareaNodo->dato.prioridad);
 
     guardarTareas(pendientes, enProceso, finalizadas);
     printf("Tarea modificada correctamente.\n");
@@ -102,7 +102,7 @@ void buscarTarea(Lista *pendientes, Lista *enProceso, Lista *finalizadas) {
             printf("\nCodigo: %d\n", resultado->dato.codigo);
             printf("Titulo: %s\n", resultado->dato.titulo);
             printf("Responsable: %s\n", resultado->dato.responsable);
-            printf("Prioridad: %s\n", resultado->dato.prioridad);
+            printf("Prioridad: %d\n", resultado->dato.prioridad);
             printf("Estado: %s\n", resultado->dato.estado);
         } else {
             printf("Tarea no encontrada.\n");
