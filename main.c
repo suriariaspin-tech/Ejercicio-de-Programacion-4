@@ -9,17 +9,14 @@ Cada tarea posee un código único, un título, un responsable, una prioridad y 
 
 
 #include <stdio.h>
-#include "busquedas_consultas.h"
-#include "estadisticas.h"
-#include "estructuras.h"
-#include "registro_eliminacion.h"
-#include "tablero_kanban.h"
+#include "tarea.h"
+#include "lista.h"
+#include "archivo.h"
+#include "kanban.h"
 #include "validaciones.h"
 #include "cargar_codigos.h"
-#include "guardar_tareas.h"
 
 int main() {
-
     cargarCodigos();
 
     Lista pendientes;
@@ -89,7 +86,6 @@ int main() {
                 guardarTareas(&pendientes, &enProceso, &finalizadas);
                 break;
         }
-
     } while(opcion != 9);
 
     liberarLista(&pendientes);
