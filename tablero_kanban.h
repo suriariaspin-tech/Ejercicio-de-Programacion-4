@@ -6,21 +6,15 @@
 // Modulo 4: funciones para mostrar el tablero y cambiar el estado de las tareas.
 
 void mostrarTablero(
-    struct Tarea pendientes[],
-    int cantPendientes,
-    struct Tarea enProceso[],
-    int cantEnProceso,
-    struct Tarea finalizadas[],
-    int cantFinalizadas
+    Lista *pendientes,
+    Lista *enProceso,
+    Lista *finalizadas
 );
 
 void cambiarEstado(
-    struct Tarea *pendientes,
-    int *cantPendientes,
-    struct Tarea *enProceso,
-    int *cantEnProceso,
-    struct Tarea *finalizadas,
-    int *cantFinalizadas
+    Lista *pendientes,
+    Lista *enProceso,
+    Lista *finalizadas
 );
 
 #endif

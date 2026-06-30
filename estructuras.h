@@ -1,7 +1,6 @@
 #ifndef ESTRUCTURAS_H
 #define ESTRUCTURAS_H
 
-#define MAX_TAREAS 20 // Define el número máximo de tareas que se pueden manejar en cada columna del tablero
 #define MAX_TITULO 100 // Define el tamaño máximo para el título de una tarea
 #define MAX_RESPONSABLE 50 // Define el tamaño máximo para el nombre del responsable de una tarea
 #define MAX_ESTADO 20 // Define el tamaño máximo para el estado de una tarea
@@ -18,6 +17,17 @@ struct Tarea {
     char prioridad[20];
     char estado[MAX_ESTADO];
 };
+
+typedef struct Nodo {
+    struct Tarea dato;
+    struct Nodo *anterior;
+    struct Nodo *siguiente;
+} Nodo;
+
+typedef struct {
+    Nodo *primero;
+    Nodo *ultimo;
+} Lista;
 
 void AsignarEstado(struct Tarea *tarea, int estado);
 

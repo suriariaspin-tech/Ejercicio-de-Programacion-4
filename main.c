@@ -16,130 +16,85 @@ Cada tarea posee un código único, un título, un responsable, una prioridad y 
 #include "tablero_kanban.h"
 #include "validaciones.h"
 #include "cargar_codigos.h"
+#include "guardar_tareas.h"
 
 int main() {
 
     cargarCodigos();
 
-    // Arreglo para almacenar las tareas pendientes
-    struct Tarea pendientes[MAX_TAREAS];
+    Lista pendientes;
+    Lista enProceso;
+    Lista finalizadas;
 
-    // Arreglo para almacenar las tareas en progreso
-    struct Tarea enProceso[MAX_TAREAS];
+    inicializarLista(&pendientes);
+    inicializarLista(&enProceso);
+    inicializarLista(&finalizadas);
 
-    // Arreglo para almacenar las tareas finalizadas
-    struct Tarea finalizadas[MAX_TAREAS];
+    cargarTareas(&pendientes, &enProceso, &finalizadas);
 
-    // Contador de tareas pendientes
-    int totalPendientes = 0;
-
-    // Contador de tareas en progreso
-    int totalEnProceso = 0;
-
-    // Contador de tareas finalizadas
-    int totalFinalizadas = 0;
-
-    // Variable para almacenar la opción seleccionada
     int opcion;
 
     do {
-        printf("\nSISTEMA KANBAN: \n");
+        printf("\nSISTEMA KANBAN:\n");
         printf("1. Registrar tarea\n");
         printf("2. Mostrar tablero\n");
-        printf("3. Mover tarea\n");
-        printf("4. Buscar tarea\n");
-        printf("5. Eliminar tarea\n");
-        printf("6. Estadisticas\n");
-        printf("7. Salir\n");
+        printf("3. Buscar tarea\n");
+        printf("4. Modificar tarea\n");
+        printf("5. Cambiar estado\n");
+        printf("6. Eliminar tarea\n");
+        printf("7. Estadisticas\n");
+        printf("8. Guardar datos\n");
+        printf("9. Salir\n");
 
-        do { // Bucle para solicitar la opción hasta que sea válida
+        do {
             printf("Seleccione una opcion: ");
-            ValidarEntero(&opcion); // Validar que la opción sea un número entero positivo
-            if(opcion < 1 || opcion > 7) { // Verifica si la opción ingresada no es válida (menor a 1 o mayor a 6)
+            ValidarEntero(&opcion);
+            if(opcion < 1 || opcion > 9) {
                 printf("Opcion invalida. Intente nuevamente.\n");
             }
-        } while(opcion < 1 || opcion > 7);
-
+        } while(opcion < 1 || opcion > 9);
 
         switch(opcion) {
             case 1:
-                // Registrar una nueva tarea
-                registrarTarea(
-                pendientes,
-                &totalPendientes,
-                enProceso,
-                &totalEnProceso,
-                finalizadas,
-                &totalFinalizadas
-                );
-
+                registrarTarea(&pendientes, &enProceso, &finalizadas);
                 break;
-
             case 2:
-                // Mostrar tablero
-                mostrarTablero(
-                pendientes,
-                totalPendientes,
-                enProceso,
-                totalEnProceso,
-                finalizadas,
-                totalFinalizadas
-                );
-
+                mostrarTablero(&pendientes, &enProceso, &finalizadas);
                 break;
-
             case 3:
-                // Mover una tarea entre estados
-                cambiarEstado(
-                pendientes,
-                &totalPendientes,
-                enProceso,
-                &totalEnProceso,
-                finalizadas,
-                &totalFinalizadas
-                );
-
+                buscarTarea(&pendientes, &enProceso, &finalizadas);
                 break;
-
             case 4:
-                // Buscar una tarea por código
-                buscarTarea(
-                    pendientes,
-                    totalPendientes,
-                    enProceso,
-                    totalEnProceso,
-                    finalizadas,
-                    totalFinalizadas
-                );
-
+                modificarTarea(&pendientes, &enProceso, &finalizadas);
                 break;
-
             case 5:
-                // Eliminar una tarea del sistema
-                eliminarTarea(
-                    pendientes,
-                    &totalPendientes,
-                    enProceso,
-                    &totalEnProceso,
-                    finalizadas,
-                    &totalFinalizadas
-                );
+                cambiarEstado(&pendientes, &enProceso, &finalizadas);
                 break;
-
             case 6:
-                // Mostrar estadísticas del proyecto
+                eliminarTarea(&pendientes, &enProceso, &finalizadas);
+                break;
+            case 7:
                 mostrarEstadisticas(
-                totalPendientes,
-                totalEnProceso,
-                totalFinalizadas
+                    contarTareas(&pendientes),
+                    contarTareas(&enProceso),
+                    contarTareas(&finalizadas)
                 );
                 break;
-
-            case 7:
+            case 8:
+                guardarTareas(&pendientes, &enProceso, &finalizadas);
+                printf("Datos guardados en tareas.txt\n");
+                break;
+            case 9:
                 printf("\nSaliendo del sistema...\n");
+                guardarTareas(&pendientes, &enProceso, &finalizadas);
                 break;
         }
 
-    } while(opcion != 7);
+    } while(opcion != 9);
+
+    liberarLista(&pendientes);
+    liberarLista(&enProceso);
+    liberarLista(&finalizadas);
+
     return 0;
 }

@@ -3,15 +3,12 @@
 
 #include "estructuras.h"
 
-// Modulo 3: funciones para buscar tareas y mostrar estadísticas.
+// Modulo 3: funciones para buscar tareas.
 
 void buscarTarea(
-    struct Tarea pendientes[],
-    int totalPendientes,
-    struct Tarea progreso[],
-    int totalProgreso,
-    struct Tarea finalizadas[],
-    int totalFinalizadas
+    Lista *pendientes,
+    Lista *progreso,
+    Lista *finalizadas
 );
 
 #endif

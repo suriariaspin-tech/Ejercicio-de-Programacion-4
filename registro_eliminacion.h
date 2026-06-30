@@ -3,24 +3,24 @@
 
 #include "estructuras.h"
 
-// Modulo 2: funciones para registrar y eliminar tareas.
+// Modulo 2: funciones para registrar, modificar y eliminar tareas.
 
 void registrarTarea(
-    struct Tarea pendientes[],
-    int *cantPendientes,
-    struct Tarea enProceso[],
-    int *cantEnProceso,
-    struct Tarea finalizadas[],
-    int *cantFinalizadas
+    Lista *pendientes,
+    Lista *enProceso,
+    Lista *finalizadas
+);
+
+void modificarTarea(
+    Lista *pendientes,
+    Lista *enProceso,
+    Lista *finalizadas
 );
 
 void eliminarTarea(
-    struct Tarea pendientes[],
-    int *cantPendientes,
-    struct Tarea progreso[],
-    int *cantProgreso,
-    struct Tarea finalizadas[],
-    int *cantFinalizadas
+    Lista *pendientes,
+    Lista *progreso,
+    Lista *finalizadas
 );
 
 #endif
